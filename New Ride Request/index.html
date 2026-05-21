@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="tailwind.css" />
   </head>
   <body>
     <div id="container" class="w-full max-w-[430px] mx-[auto] bg-red-100">
@@ -22,9 +22,9 @@
         </ul>
       </div>
 
-      <div id="selecao" class="overflow-x-auto p-[35px_0px_40px_24px] flex">
-        <div class="pr-[8px]">
-          <input type="radio" id="opcao1" class="hidden peer" name="meu_grupo" value="config" checked/>
+      <div id="selecao" class="overflow-x-auto p-[35px_0px_20px_24px] flex">
+        <div class="pr-[8px]" >
+          <input type="radio" id="opcao1" class="hidden peer" name="meu_grupo" value="config" onclick="showRideRequest()" checked/>
           <label for="opcao1" class="peer-checked:[&>span]:text-white peer-checked:[&>span]:font-bold peer-checked:bg-purple-500 button relative flex-[0_0_auto] w-[100px] h-[100px] bg-none border-none p-0 cursor-pointer rounded-[8px] overflow-hidden block [&>span]:text-black">
             <img
             class="w-12 h-12 absolute top-4 left-1/2 -translate-x-1/2 object-contain"
@@ -67,18 +67,16 @@
             src="/media/simbolo-de-tres-barras-verticais-delineadas.png"
             alt=""
             />
-            <span class="absolute bottom-[0px] left-[0px] right-[0px] text-white p-[30px_10px_10px_10px] text-[14px] font-bold text-center">My Feed</span>
+            <span class="absolute bottom-[0px] left-[0px] right-[0px] text-white p-[30px_10px_10px_10px] text-[14px] font-bold text-center">My feed</span>
           </label>
         </div>
         
       </div>
-      <h1>Hello, World!</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Exercitationem
-        nisi libero dolorem, molestiae nam quae nulla quam facilis eligendi
-        animi eius architecto distinctio pariatur fuga? Sint optio libero quae
-        est.
-      </p>
+
+      <div id="ride" class="p-[20px_0px_0px_24px] [&>span]:text-black dark:[&>span]:text-white">
+        <p>New ride request!</p>
+      </div>
     </div>
+    <script src="script.js"></script>
   </body>
 </html>
