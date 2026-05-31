@@ -609,9 +609,10 @@
 .ride-header {
   background: linear-gradient(180deg, #2f36d3 0%, #3341d9 100%);
   color: #fff;
-  padding: 20px 20px 56px;
-  border-bottom-left-radius: 32px;
-  border-bottom-right-radius: 32px;
+  padding: 20px 22px 0px;
+  margin-bottom: 50px;
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
 }
 
 .ride-header__bar {
@@ -676,26 +677,21 @@
 }
 
 .ride-date__badge {
-  position: absolute;
-  top: -14px;
-  left: 50%;
-  transform: translateX(-50%);
   width: 24px;
   height: 24px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.2);
+  margin-bottom: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #fff;
+  color: #2f36d3;
 }
 
 .ride-date__badge svg {
-  width: 14px;
-  height: 14px;
+  width: 18px;
+  height: 18px;
 }
 
-.ride-date.is-current {
+.ride-date.is-selected {
   color: #2f36d3;
   background: #fff;
   padding: 16px 18px;
@@ -707,15 +703,9 @@
   transition: all 0.3s ease;
 }
 
-.ride-date.is-current .ride-date__day {
+.ride-date.is-selected .ride-date__day {
   font-size: 20px;
   font-weight: 800;
-}
-
-.ride-date.is-selected:not(.is-current) {
-  color: #fff;
-  font-weight: 700;
-  text-shadow: 0 6px 12px rgba(7, 12, 64, 0.25);
 }
 
 .ride-date:focus-visible {

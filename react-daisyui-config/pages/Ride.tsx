@@ -15,7 +15,26 @@ const defaultDayIndex = currentDayIndex === -1 ? 0 : currentDayIndex
 
 const rideCards = [
   {
+    id: "seattle",
+    dateDay: "26",
+    icons: ["briefcase"],
+    avatars: ["https://i.pravatar.cc/100?img=1"],
+    start: { city: "Seattle", time: "14:00" },
+    end: { city: "Portland", time: "17:30" },
+    distance: "Distance 279 km",
+  },
+  {
+    id: "austin",
+    dateDay: "27",
+    icons: ["wifi"],
+    avatars: ["https://i.pravatar.cc/100?img=2"],
+    start: { city: "Austin", time: "09:00" },
+    end: { city: "Houston", time: "11:00" },
+    distance: "Distance 192 km",
+  },
+  {
     id: "chicago",
+    dateDay: "28",
     icons: ["wifi", "briefcase", "bolt"],
     avatars: [
       "https://i.pravatar.cc/100?img=32",
@@ -27,6 +46,7 @@ const rideCards = [
   },
   {
     id: "new-york",
+    dateDay: "28",
     icons: ["wifi", "briefcase"],
     avatars: [
       "https://i.pravatar.cc/100?img=15",
@@ -35,6 +55,24 @@ const rideCards = [
     start: { city: "New York", time: "21:45" },
     end: { city: "Park Avenue", time: "22:40" },
     distance: "Distance 19,3 km",
+  },
+  {
+    id: "sf",
+    dateDay: "29",
+    icons: ["wifi", "bolt"],
+    avatars: ["https://i.pravatar.cc/100?img=12"],
+    start: { city: "San Francisco", time: "08:00" },
+    end: { city: "San Jose", time: "09:30" },
+    distance: "Distance 76,5 km",
+  },
+  {
+    id: "miami",
+    dateDay: "30",
+    icons: ["bolt"],
+    avatars: ["https://i.pravatar.cc/100?img=33"],
+    start: { city: "Miami", time: "10:15" },
+    end: { city: "Fort Lauderdale", time: "11:20" },
+    distance: "Distance 45 km",
   },
 ]
 
@@ -82,7 +120,7 @@ export default function Ride() {
   return (
     <div className="ride-ui">
       <div className="ride-ui__frame">
-        <header className="ride-header">
+        <header className="ride-header bg-red-400">
           <div className="ride-header__bar">
             <button
               type="button"
@@ -140,7 +178,7 @@ export default function Ride() {
                   aria-pressed={isSelected}
                   aria-current={isCurrent ? "date" : undefined}
                 >
-                  {isCurrent && (
+                  {isCurrent && isSelected && (
                     <span className="ride-date__badge" aria-hidden="true">
                       <svg
                         viewBox="0 0 24 24"
@@ -164,120 +202,145 @@ export default function Ride() {
         </header>
 
         <main className="ride-list">
-          {rideCards.map((card) => {
-            const isExpanded = expandedCardId === card.id
+          {rideCards.filter(
+            (card) => card.dateDay === rideDays[selectedDayIndex].day,
+          ).length === 0 && (
+            <p
+              style={{
+                textAlign: "center",
+                color: "#a2a6c9",
+                marginTop: "20px",
+              }}
+            >
+              Nenhuma rota para este dia.
+            </p>
+          )}
 
-            return (
-              <article
-                key={card.id}
-                className={`ride-item${isExpanded ? " is-expanded" : ""}`}
-              >
-                <div className="ride-item__header">
-                  <div className="ride-item__icons">
-                    {card.icons.map((icon) => (
-                      <span key={icon} className="ride-item__icon">
-                        {iconMap[icon]}
-                      </span>
-                    ))}
+          {rideCards
+            .filter((card) => card.dateDay === rideDays[selectedDayIndex].day)
+            .map((card) => {
+              const isExpanded = expandedCardId === card.id
+
+              return (
+                <article
+                  key={card.id}
+                  className={`ride-item${isExpanded ? " is-expanded" : ""}`}
+                >
+                  <div className="ride-item__header">
+                    <div className="ride-item__icons">
+                      {card.icons.map((icon) => (
+                        <span key={icon} className="ride-item__icon">
+                          {iconMap[icon]}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="ride-item__avatars">
+                      {card.avatars.map((avatar, index) => (
+                        <img
+                          key={avatar}
+                          className="ride-item__avatar"
+                          src={avatar}
+                          alt={`Passenger ${index + 1}`}
+                          loading="lazy"
+                        />
+                      ))}
+                    </div>
                   </div>
-                  <div className="ride-item__avatars">
-                    {card.avatars.map((avatar, index) => (
-                      <img
-                        key={avatar}
-                        className="ride-item__avatar"
-                        src={avatar}
-                        alt={`Passenger ${index + 1}`}
-                        loading="lazy"
+
+                  <div className="ride-route">
+                    <div className="ride-route__point">
+                      <span className="ride-route__dot" aria-hidden="true" />
+                      <div className="ride-route__content">
+                        <span className="ride-route__city">
+                          {card.start.city}
+                        </span>
+                      </div>
+                      <span className="ride-route__time">
+                        {card.start.time}
+                      </span>
+                    </div>
+
+                    <div className="ride-route__connector">
+                      <span
+                        className="ride-route__line-wrap"
+                        aria-hidden="true"
+                      >
+                        <span className="ride-route__line" />
+                      </span>
+                      <span className="ride-route__label">{card.distance}</span>
+                    </div>
+
+                    <div className="ride-route__point">
+                      <span
+                        className="ride-route__dot is-end"
+                        aria-hidden="true"
                       />
-                    ))}
-                  </div>
-                </div>
-
-                <div className="ride-route">
-                  <div className="ride-route__point">
-                    <span className="ride-route__dot" aria-hidden="true" />
-                    <div className="ride-route__content">
-                      <span className="ride-route__city">
-                        {card.start.city}
-                      </span>
-                    </div>
-                    <span className="ride-route__time">{card.start.time}</span>
-                  </div>
-
-                  <div className="ride-route__connector">
-                    <span className="ride-route__line-wrap" aria-hidden="true">
-                      <span className="ride-route__line" />
-                    </span>
-                    <span className="ride-route__label">{card.distance}</span>
-                  </div>
-
-                  <div className="ride-route__point">
-                    <span
-                      className="ride-route__dot is-end"
-                      aria-hidden="true"
-                    />
-                    <div className="ride-route__content">
-                      <span className="ride-route__city">{card.end.city}</span>
-                    </div>
-                    <span className="ride-route__time">{card.end.time}</span>
-                  </div>
-                </div>
-
-                <div
-                  className={`ride-item__details${isExpanded ? " is-open" : ""}`}
-                >
-                  <div className="ride-item__detail-grid">
-                    <div>
-                      <span className="ride-item__detail-label">Driver</span>
-                      <span className="ride-item__detail-value">4.9 (218)</span>
-                    </div>
-                    <div>
-                      <span className="ride-item__detail-label">Pickup</span>
-                      <span className="ride-item__detail-value">10 min</span>
-                    </div>
-                    <div>
-                      <span className="ride-item__detail-label">Seats</span>
-                      <span className="ride-item__detail-value">2 left</span>
+                      <div className="ride-route__content">
+                        <span className="ride-route__city">
+                          {card.end.city}
+                        </span>
+                      </div>
+                      <span className="ride-route__time">{card.end.time}</span>
                     </div>
                   </div>
-                  <div className="ride-item__actions">
-                    <button
-                      type="button"
-                      className="ride-item__ghost"
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      Ver perfil
-                    </button>
-                    <button
-                      type="button"
-                      className="ride-item__primary"
-                      onClick={(event) => event.stopPropagation()}
-                    >
-                      Reservar
-                    </button>
-                  </div>
-                </div>
 
-                <button
-                  type="button"
-                  className="ride-item__toggle"
-                  aria-expanded={isExpanded}
-                  onClick={() => toggleCard(card.id)}
-                >
-                  {isExpanded ? "Ocultar" : "Detalhes"}
-                  <svg
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    className={isExpanded ? "is-rotated" : ""}
+                  <div
+                    className={`ride-item__details${isExpanded ? " is-open" : ""}`}
                   >
-                    <path d="M6 9l6 6 6-6" />
-                  </svg>
-                </button>
-              </article>
-            )
-          })}
+                    <div className="ride-item__detail-grid">
+                      <div>
+                        <span className="ride-item__detail-label">Driver</span>
+                        <span className="ride-item__detail-value">
+                          4.9 (218)
+                        </span>
+                      </div>
+                      <div>
+                        <span className="ride-item__detail-label">Pickup</span>
+                        <span className="ride-item__detail-value">10 min</span>
+                      </div>
+                      <div>
+                        <span className="ride-item__detail-label">Seats</span>
+                        <span className="ride-item__detail-value">2 left</span>
+                      </div>
+                    </div>
+                    <div className="ride-item__actions">
+                      <button
+                        type="button"
+                        className="ride-item__ghost"
+                        onClick={(event) => event.stopPropagation()}
+                      >
+                        Ver perfil
+                      </button>
+                      <button
+                        type="button"
+                        className="ride-item__primary"
+                        onClick={(event) => event.stopPropagation()}
+                      >
+                        Reservar
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="ride-item__toggle"
+                    aria-expanded={isExpanded}
+                    onClick={() => toggleCard(card.id)}
+                  >
+                    {isExpanded ? "Ocultar" : "Detalhes"}
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      className={isExpanded ? "is-rotated" : ""}
+                    >
+                      <path d="M6 9l6 6 6-6" />
+                    </svg>
+                  </button>
+                </article>
+              )
+            })}
         </main>
       </div>
 
