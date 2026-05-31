@@ -43,12 +43,11 @@ function RideRequest() {
 
   return (
     <main className="ride-request" aria-label="Nova solicitação de corrida">
-
       <div
         className={`ride-card ${declinePulse ? "is-declined" : ""}`}
         aria-label="Solicitação de Jeck N."
       >
-      <h3 className="section-title">New ride request!</h3>
+        <h3 className="text-bold">New ride request!</h3>
         <div className="ride-card__header">
           <div className="ride-card__badges">
             <div className="badge" aria-label="Elétrico">
@@ -80,7 +79,7 @@ function RideRequest() {
               <span className="ride-card__passenger-ratings">158 ratings</span>
             </div>
             <div className="ride-card__passenger-avatar" aria-hidden="true">
-              👨
+              <img src="https://i.pravatar.cc/100?img=56" alt="" />
             </div>
           </div>
         </div>
