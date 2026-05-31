@@ -11,6 +11,7 @@
 :root {
   --blue: #3333cc;
   --blue-dark: #2a2aaa;
+  --accent-pink: #ea709c;
   --pink: #f0457a;
   --pink-light: #f5618e;
   --text-dark: #1a1a4e;
@@ -36,6 +37,12 @@
   color: var(--text-dark);
 }
 
+.text-bold {
+  font-weight: 900;
+  font-size: 18px;
+  color: var(--text-dark);
+}
+
 .ride-card {
   margin: 0 18px 18px;
   background: #f8f8fd;
@@ -53,19 +60,18 @@
 }
 
 .badge {
-  width: 32px;
-  height: 32px;
   border-radius: 8px;
   background: var(--white);
   box-shadow: 0 2px 8px rgba(51, 51, 180, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
+  padding: 4px;
 }
 
 .badge svg {
-  width: 16px;
-  height: 16px;
+  width: auto;
+  height: auto;
 }
 
 .ride-card__header {
@@ -127,20 +133,20 @@
 .ride-card__date {
   font-size: 13px;
   font-weight: 800;
-  color: var(--pink);
+  color: var(--accent-pink);
 }
 
 .ride-card__seat {
   font-size: 11px;
-  font-weight: 600;
-  color: var(--pink-light);
+  font-weight: 700;
+  color: var(--accent-pink);
   margin-top: 2px;
 }
 
 .ride-card__price {
   font-size: 26px;
   font-weight: 900;
-  color: var(--pink);
+  color: var(--accent-pink);
 }
 
 .route {
@@ -234,7 +240,7 @@
   font-family: "Nunito", sans-serif;
   font-size: 15px;
   font-weight: 800;
-  color: var(--pink);
+  color: var(--accent-pink);
   cursor: pointer;
   padding: 10px 6px;
   transition: opacity 0.2s;

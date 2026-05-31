@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { CarFront, Mail, Heart, Activity } from "lucide-react"
+import { CarFront, Mail, Heart, Activity, Flame, Zap } from "lucide-react"
 
 function RideRequest() {
   const [acceptPressed, setAcceptPressed] = useState(false)
@@ -50,27 +50,17 @@ function RideRequest() {
         <h3 className="text-bold">New ride request!</h3>
         <div className="ride-card__header">
           <div className="ride-card__badges">
-            <div className="badge" aria-label="Elétrico">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <polygon
-                  points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"
-                  stroke="var(--blue)"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+            <div
+              className="badge w-[84px] h-[30px] flex items-center justify-center"
+              aria-label="Elétrico"
+            >
+              <Zap size={24} stroke="var(--blue)" aria-hidden="true" />
             </div>
-            <div className="badge" aria-label="Popular">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path
-                  d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 01-7 7c-1.89 0-3.6-.66-4.94-1.75"
-                  stroke="var(--pink)"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                />
-              </svg>
+            <div
+              className="badge w-[84px] h-[30px] flex items-center justify-center"
+              aria-label="Popular"
+            >
+              <Flame size={24} stroke="var(--accent-pink)" aria-hidden="true" />
             </div>
           </div>
           <div className="ride-card__passenger">
