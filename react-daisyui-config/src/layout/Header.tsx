@@ -1,4 +1,7 @@
+import { Link, useNavigate } from "react-router-dom";
+
 export default function Header() {
+  const navigate = useNavigate();
   return (
     <div className="navbar bg-base-100 shadow-sm">
       <div className="navbar-start">
@@ -28,7 +31,7 @@ export default function Header() {
               <a>Homepage</a>
             </li>
             <li>
-              <a>Portfolio</a>
+              <a onClick={() => navigate("/ride")}>Ride</a>
             </li>
             <li>
               <a>About</a>

@@ -599,7 +599,7 @@
 
 .ride-ui {
   min-height: 100vh;
-  background: #eef1ff;
+  background: #ffffff;
   display: flex;
   justify-content: center;
   color: #1f2466;
@@ -609,7 +609,7 @@
 .ride-ui__frame {
   width: 100%;
   max-width: 430px;
-  background: #eef1ff;
+  background: #ffffff;
 }
 
 .ride-header {
@@ -726,7 +726,7 @@
 }
 
 .ride-item {
-  background: #fff;
+  background: linear-gradient(0deg, #fff 0%, #ffffff 100%);
   border-radius: 20px;
   padding: 14px 16px 16px;
   box-shadow: 0 14px 32px rgba(36, 42, 120, 0.12);
