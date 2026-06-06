@@ -51,16 +51,16 @@ function RideRequest() {
         <div className="ride-card__header">
           <div className="ride-card__badges">
             <div
-              className="badge w-[84px] h-[30px] flex items-center justify-center"
+              className="badge w-[25px] h-[30px] flex items-center justify-center"
               aria-label="Elétrico"
             >
-              <Zap size={24} stroke="var(--blue)" aria-hidden="true" />
+              <Zap size={12} stroke="var(--text-mid)" aria-hidden="true" />
             </div>
             <div
-              className="badge w-[84px] h-[30px] flex items-center justify-center"
+              className="badge w-[25px] h-[30px] flex items-center justify-center"
               aria-label="Popular"
             >
-              <Flame size={24} stroke="var(--accent-pink)" aria-hidden="true" />
+              <Flame size={12} stroke="var(--text-mid)" aria-hidden="true" />
             </div>
           </div>
           <div className="ride-card__passenger">
