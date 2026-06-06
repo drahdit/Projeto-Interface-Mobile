@@ -11,7 +11,6 @@ const rideDays = [
 const currentDayIndex = rideDays.findIndex(
   (date) => date.day === "28" && date.month === "May",
 )
-const defaultDayIndex = currentDayIndex === -1 ? 0 : currentDayIndex
 
 const rideCards = [
   {
