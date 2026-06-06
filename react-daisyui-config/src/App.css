@@ -631,17 +631,17 @@
   width: 36px;
   height: 36px;
   border-radius: 12px;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.12);
+  border: 1px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: #fff;
+  margin-top: 12px;
 }
 
 .ride-icon-button svg {
-  width: 18px;
-  height: 18px;
+  width: 45px;
+  height: 45px;
 }
 
 .ride-header__title {
@@ -749,8 +749,9 @@
   width: 30px;
   height: 30px;
   border-radius: 10px;
-  background: #f0f2ff;
-  color: #6b72e5;
+  border: 2px solid #e5e7eb;
+  background: none;
+  color: #7e79b2;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -767,16 +768,16 @@
 }
 
 .ride-item__avatar {
-  width: 34px;
-  height: 34px;
+  width: 42px;
+  height: 52px;
   border-radius: 12px;
   overflow: hidden;
-  border: 2px solid #fff;
+  border: 2px;
   box-shadow: 0 4px 10px rgba(36, 42, 120, 0.12);
 }
 
 .ride-item__avatar + .ride-item__avatar {
-  margin-left: -8px;
+  margin-left: 8px;
 }
 
 .ride-route {
@@ -792,10 +793,10 @@
 }
 
 .ride-route__dot {
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: #5c63e4;
+  width: 18px;
+  height: 24px;
+  border-radius: 30%;
+  background: #9fa0ef;
   margin-top: 6px;
   position: relative;
   flex-shrink: 0;
@@ -803,22 +804,29 @@
 
 .ride-route__dot::after {
   content: "";
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   background: #fff;
   position: absolute;
-  top: 4px;
-  left: 4px;
+  top: 8px;
+  left: 5.5px;
 }
 
 .ride-route__dot.is-end {
-  background: transparent;
-  border: 2px solid #5c63e4;
+  background: #eff0fb;
+  margin-top: 2px;
 }
 
 .ride-route__dot.is-end::after {
-  display: none;
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #6c66dd;
+  position: absolute;
+  top: 8px;
+  left: 5.5px;
 }
 
 .ride-route__content {
@@ -842,7 +850,7 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 6px 0 8px;
+  padding: 4px 0 2px;
 }
 
 .ride-route__line-wrap {
@@ -850,19 +858,24 @@
   display: flex;
   justify-content: center;
   flex-shrink: 0;
+  padding-left: 2px
 }
 
 .ride-route__line {
   width: 2px;
-  height: 18px;
-  background: linear-gradient(#6b72e5, #e3e6ff);
+  height: 50px;
+  background: #f5f5f5;
   border-radius: 2px;
+  margin-left: 1px;
+  -webkit-mask-image: repeating-linear-gradient(to bottom, black 0px, black 3px, transparent 3px, transparent 6px);
+  mask-image: repeating-linear-gradient(to bottom, black 0px, black 3px, transparent 3px, transparent 6px);
 }
 
 .ride-route__label {
   font-size: 12px;
   font-weight: 600;
   color: #a2a6c9;
+  margin-top: 11px;
 }
 
 .ride-item.is-expanded {

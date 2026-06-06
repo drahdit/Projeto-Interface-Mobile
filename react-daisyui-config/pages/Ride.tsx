@@ -1,4 +1,5 @@
 import { useState, type JSX } from "react"
+import { useNavigate } from "react-router-dom"
 
 const rideDays = [
   { day: "26", month: "May" },
@@ -116,6 +117,8 @@ export default function Ride() {
     setFilters((current) => ({ ...current, [key]: !current[key] }))
   }
 
+  const navigate = useNavigate()
+
   return (
     <div className="ride-ui">
       <div className="ride-ui__frame">
@@ -125,6 +128,7 @@ export default function Ride() {
               type="button"
               className="ride-icon-button"
               aria-label="Go back"
+              onClick={() => navigate("/")}
             >
               <svg
                 viewBox="0 0 24 24"
@@ -237,7 +241,7 @@ export default function Ride() {
                       {card.avatars.map((avatar, index) => (
                         <img
                           key={avatar}
-                          className="ride-item__avatar"
+                          className="ride-item__avatar object-cover"
                           src={avatar}
                           alt={`Passenger ${index + 1}`}
                           loading="lazy"
