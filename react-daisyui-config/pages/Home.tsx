@@ -1,5 +1,4 @@
 import Content from "../src/components/Content"
-import Footer from "../src/layout/Footer"
 import Header from "../src/layout/Header"
 
 export default function Home() {
@@ -24,7 +23,6 @@ export default function Home() {
       </div>
 
       <Content />
-      <Footer />
     </div>
   )
 }
