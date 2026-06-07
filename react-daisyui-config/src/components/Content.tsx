@@ -82,28 +82,28 @@ function RideRequest() {
           <p className="ride-card__price">50 $</p>
         </div>
 
-        <div className="route" aria-label="Rota da viagem">
-          <div className="route__point">
-            <div
-              className="route__dot route__dot--origin"
-              aria-hidden="true"
-            ></div>
-            <span className="route__city">Chicago</span>
-            <time className="route__time">20:00</time>
-          </div>
-          <div className="route__connector" aria-hidden="true">
-            <div className="route__line-wrap">
-              <div className="route__line"></div>
+        <div className="ride-route" aria-label="Rota da viagem">
+          <div className="ride-route__point">
+            <span className="ride-route__dot" aria-hidden="true" />
+            <div className="ride-route__content">
+              <span className="ride-route__city">Chicago</span>
             </div>
-            <span className="route__distance">Distance &nbsp;15, 8 km</span>
+            <span className="ride-route__time">20:00</span>
           </div>
-          <div className="route__point">
-            <div
-              className="route__dot route__dot--destination"
-              aria-hidden="true"
-            ></div>
-            <span className="route__city">Oak Park</span>
-            <time className="route__time">22:30</time>
+
+          <div className="ride-route__connector">
+            <span className="ride-route__line-wrap" aria-hidden="true">
+              <span className="ride-route__line" />
+            </span>
+            <span className="ride-route__label">Distance &nbsp;15, 8 km</span>
+          </div>
+
+          <div className="ride-route__point">
+            <span className="ride-route__dot is-end" aria-hidden="true" />
+            <div className="ride-route__content">
+              <span className="ride-route__city">Oak Park</span>
+            </div>
+            <span className="ride-route__time">22:30</span>
           </div>
         </div>
         <div className="ride-actions">
