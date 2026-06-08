@@ -149,8 +149,18 @@ const tabs = [
       </div>
     ),
   },
-  { id: "rating", label: "Rating", Icon: Heart },
-  { id: "feed", label: "My Feed", Icon: Activity },
+  {
+    id: "rating",
+    label: "Rating",
+    Icon: Heart,
+    content: <span className="loading loading-infinity loading-xl"></span>,
+  },
+  {
+    id: "feed",
+    label: "My Feed",
+    Icon: Activity,
+    content: <span className="loading loading-infinity loading-xl"></span>,
+  },
 ]
 
 export default function MyTabs() {

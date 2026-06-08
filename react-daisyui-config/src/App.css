@@ -1,5 +1,4 @@
 @import "tailwindcss";
-@import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap");
 @plugin "daisyui" {
   themes: light --default;
 }
@@ -24,6 +23,12 @@
   --radius: 20px;
   --radius-sm: 14px;
   --radius-xs: 10px;
+}
+
+body {
+  min-height: 100vh;
+  font-family: "Nunito", sans-serif;
+  background: #ffff;
 }
 
 .ride-request {

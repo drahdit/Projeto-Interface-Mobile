@@ -1,6 +1,25 @@
 import { useState, type JSX } from "react"
 import { useNavigate } from "react-router-dom"
 
+type RideIcon = "wifi" | "briefcase" | "bolt"
+type RideFilterKey = "wifi" | "luggage" | "electric"
+
+type RideCard = {
+  id: string
+  dateDay: string
+  icons: RideIcon[]
+  avatars: string[]
+  start: {
+    city: string
+    time: string
+  }
+  end: {
+    city: string
+    time: string
+  }
+  distance: string
+}
+
 const rideDays = [
   { day: "26", month: "May" },
   { day: "27", month: "May" },
@@ -13,7 +32,7 @@ const currentDayIndex = rideDays.findIndex(
   (date) => date.day === "28" && date.month === "May",
 )
 
-const rideCards = [
+const rideCards: RideCard[] = [
   {
     id: "seattle",
     dateDay: "26",
@@ -76,7 +95,7 @@ const rideCards = [
   },
 ]
 
-const iconMap: Record<string, JSX.Element> = {
+const iconMap: Record<RideIcon, JSX.Element> = {
   wifi: (
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
       <path d="M2 8c5.3-5.3 14.7-5.3 20 0" />
@@ -100,34 +119,50 @@ const iconMap: Record<string, JSX.Element> = {
 }
 
 export default function Ride() {
-  const [selectedDayIndex, setSelectedDayIndex] = useState(currentDayIndex)
+  const initialSelectedDayIndex = currentDayIndex === -1 ? 0 : currentDayIndex
+  const [selectedDayIndex, setSelectedDayIndex] = useState(
+    initialSelectedDayIndex,
+  )
   const [expandedCardId, setExpandedCardId] = useState<string | null>(null)
   const [isFilterOpen, setIsFilterOpen] = useState(false)
-  const [filters, setFilters] = useState({
+  const [filters, setFilters] = useState<Record<RideFilterKey, boolean>>({
     wifi: true,
     luggage: false,
     electric: false,
+  })
+
+  const navigate = useNavigate()
+  const selectedDay = rideDays[selectedDayIndex] ?? rideDays[0]
+
+  const visibleCards = rideCards.filter((card) => {
+    if (card.dateDay !== selectedDay.day) {
+      return false
+    }
+
+    return (
+      (!filters.wifi || card.icons.includes("wifi")) &&
+      (!filters.luggage || card.icons.includes("briefcase")) &&
+      (!filters.electric || card.icons.includes("bolt"))
+    )
   })
 
   const toggleCard = (id: string) => {
     setExpandedCardId((current) => (current === id ? null : id))
   }
 
-  const toggleFilter = (key: keyof typeof filters) => {
+  const toggleFilter = (key: RideFilterKey) => {
     setFilters((current) => ({ ...current, [key]: !current[key] }))
   }
-
-  const navigate = useNavigate()
 
   return (
     <div className="ride-ui">
       <div className="ride-ui__frame">
-        <header className="ride-header bg-red-400">
+        <header className="ride-header">
           <div className="ride-header__bar">
             <button
               type="button"
               className="ride-icon-button"
-              aria-label="Go back"
+              aria-label="Voltar"
               onClick={() => navigate("/")}
             >
               <svg
@@ -137,6 +172,7 @@ export default function Ride() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                aria-hidden="true"
               >
                 <path d="M15 18l-6-6 6-6" />
               </svg>
@@ -144,7 +180,7 @@ export default function Ride() {
             <button
               type="button"
               className="ride-icon-button"
-              aria-label="Filters"
+              aria-label="Filtros"
               onClick={() => setIsFilterOpen(true)}
             >
               <svg
@@ -154,6 +190,7 @@ export default function Ride() {
                 strokeWidth="2"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                aria-hidden="true"
               >
                 <line x1="4" y1="6" x2="20" y2="6" />
                 <circle cx="8" cy="6" r="2" fill="currentColor" />
@@ -167,7 +204,7 @@ export default function Ride() {
           <h1 className="ride-header__title">Ride</h1>
           <div className="ride-dates">
             {rideDays.map((date, index) => {
-              const isCurrent = index === currentDayIndex
+              const isCurrent = index === initialSelectedDayIndex
               const isSelected = index === selectedDayIndex
 
               return (
@@ -188,6 +225,7 @@ export default function Ride() {
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="2"
+                        aria-hidden="true"
                       >
                         <rect x="3" y="4" width="18" height="18" rx="3" />
                         <line x1="8" y1="2" x2="8" y2="6" />
@@ -205,145 +243,127 @@ export default function Ride() {
         </header>
 
         <main className="ride-list">
-          {rideCards.filter(
-            (card) => card.dateDay === rideDays[selectedDayIndex].day,
-          ).length === 0 && (
-            <p
-              style={{
-                textAlign: "center",
-                color: "#a2a6c9",
-                marginTop: "20px",
-              }}
-            >
+          {visibleCards.length === 0 && (
+            <p className="mt-5 text-center text-[#a2a6c9]">
               Nenhuma rota para este dia.
             </p>
           )}
 
-          {rideCards
-            .filter((card) => card.dateDay === rideDays[selectedDayIndex].day)
-            .map((card) => {
-              const isExpanded = expandedCardId === card.id
+          {visibleCards.map((card) => {
+            const isExpanded = expandedCardId === card.id
 
-              return (
-                <article
-                  key={card.id}
-                  className={`ride-item${isExpanded ? " is-expanded" : ""}`}
-                >
-                  <div className="ride-item__header">
-                    <div className="ride-item__icons">
-                      {card.icons.map((icon) => (
-                        <span key={icon} className="ride-item__icon">
-                          {iconMap[icon]}
-                        </span>
-                      ))}
-                    </div>
-                    <div className="ride-item__avatars">
-                      {card.avatars.map((avatar, index) => (
-                        <img
-                          key={avatar}
-                          className="ride-item__avatar object-cover"
-                          src={avatar}
-                          alt={`Passenger ${index + 1}`}
-                          loading="lazy"
-                        />
-                      ))}
-                    </div>
+            return (
+              <article
+                key={card.id}
+                className={`ride-item${isExpanded ? " is-expanded" : ""}`}
+              >
+                <div className="ride-item__header">
+                  <div className="ride-item__icons">
+                    {card.icons.map((icon) => (
+                      <span key={icon} className="ride-item__icon">
+                        {iconMap[icon]}
+                      </span>
+                    ))}
                   </div>
-
-                  <div className="ride-route">
-                    <div className="ride-route__point">
-                      <span className="ride-route__dot" aria-hidden="true" />
-                      <div className="ride-route__content">
-                        <span className="ride-route__city">
-                          {card.start.city}
-                        </span>
-                      </div>
-                      <span className="ride-route__time">
-                        {card.start.time}
-                      </span>
-                    </div>
-
-                    <div className="ride-route__connector">
-                      <span
-                        className="ride-route__line-wrap"
-                        aria-hidden="true"
-                      >
-                        <span className="ride-route__line" />
-                      </span>
-                      <span className="ride-route__label">{card.distance}</span>
-                    </div>
-
-                    <div className="ride-route__point">
-                      <span
-                        className="ride-route__dot is-end"
-                        aria-hidden="true"
+                  <div className="ride-item__avatars">
+                    {card.avatars.map((avatar, index) => (
+                      <img
+                        key={avatar}
+                        className="ride-item__avatar object-cover"
+                        src={avatar}
+                        alt={`Passenger ${index + 1}`}
+                        loading="lazy"
                       />
-                      <div className="ride-route__content">
-                        <span className="ride-route__city">
-                          {card.end.city}
-                        </span>
-                      </div>
-                      <span className="ride-route__time">{card.end.time}</span>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="ride-route">
+                  <div className="ride-route__point">
+                    <span className="ride-route__dot" aria-hidden="true" />
+                    <div className="ride-route__content">
+                      <span className="ride-route__city">
+                        {card.start.city}
+                      </span>
                     </div>
+                    <span className="ride-route__time">{card.start.time}</span>
                   </div>
 
-                  <div
-                    className={`ride-item__details${isExpanded ? " is-open" : ""}`}
-                  >
-                    <div className="ride-item__detail-grid">
-                      <div>
-                        <span className="ride-item__detail-label">Driver</span>
-                        <span className="ride-item__detail-value">
-                          4.9 (218)
-                        </span>
-                      </div>
-                      <div>
-                        <span className="ride-item__detail-label">Pickup</span>
-                        <span className="ride-item__detail-value">10 min</span>
-                      </div>
-                      <div>
-                        <span className="ride-item__detail-label">Seats</span>
-                        <span className="ride-item__detail-value">2 left</span>
-                      </div>
-                    </div>
-                    <div className="ride-item__actions">
-                      <button
-                        type="button"
-                        className="ride-item__ghost"
-                        onClick={(event) => event.stopPropagation()}
-                      >
-                        Ver perfil
-                      </button>
-                      <button
-                        type="button"
-                        className="ride-item__primary"
-                        onClick={(event) => event.stopPropagation()}
-                      >
-                        Reservar
-                      </button>
-                    </div>
+                  <div className="ride-route__connector">
+                    <span className="ride-route__line-wrap" aria-hidden="true">
+                      <span className="ride-route__line" />
+                    </span>
+                    <span className="ride-route__label">{card.distance}</span>
                   </div>
 
-                  <button
-                    type="button"
-                    className="ride-item__toggle"
-                    aria-expanded={isExpanded}
-                    onClick={() => toggleCard(card.id)}
-                  >
-                    {isExpanded ? "Ocultar" : "Detalhes"}
-                    <svg
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      strokeWidth="2"
-                      className={isExpanded ? "is-rotated" : ""}
+                  <div className="ride-route__point">
+                    <span
+                      className="ride-route__dot is-end"
+                      aria-hidden="true"
+                    />
+                    <div className="ride-route__content">
+                      <span className="ride-route__city">{card.end.city}</span>
+                    </div>
+                    <span className="ride-route__time">{card.end.time}</span>
+                  </div>
+                </div>
+
+                <div
+                  className={`ride-item__details${isExpanded ? " is-open" : ""}`}
+                >
+                  <div className="ride-item__detail-grid">
+                    <div>
+                      <span className="ride-item__detail-label">Driver</span>
+                      <span className="ride-item__detail-value">4.9 (218)</span>
+                    </div>
+                    <div>
+                      <span className="ride-item__detail-label">Pickup</span>
+                      <span className="ride-item__detail-value">10 min</span>
+                    </div>
+                    <div>
+                      <span className="ride-item__detail-label">Seats</span>
+                      <span className="ride-item__detail-value">2 left</span>
+                    </div>
+                  </div>
+                  <div className="ride-item__actions">
+                    <button
+                      type="button"
+                      className="ride-item__ghost"
+                      onClick={(event) => event.stopPropagation()}
                     >
-                      <path d="M6 9l6 6 6-6" />
-                    </svg>
-                  </button>
-                </article>
-              )
-            })}
+                      Ver perfil
+                    </button>
+                    <button
+                      type="button"
+                      className="ride-item__primary"
+                      onClick={(event) => event.stopPropagation()}
+                    >
+                      Reservar
+                    </button>
+                  </div>
+                </div>
+
+                <button
+                  type="button"
+                  className="ride-item__toggle"
+                  aria-expanded={isExpanded}
+                  onClick={() => toggleCard(card.id)}
+                >
+                  {isExpanded ? "Ocultar" : "Detalhes"}
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    className={isExpanded ? "is-rotated" : ""}
+                    aria-hidden="true"
+                  >
+                    <path d="M6 9l6 6 6-6" />
+                  </svg>
+                </button>
+              </article>
+            )
+          })}
         </main>
       </div>
 
@@ -352,28 +372,29 @@ export default function Ride() {
           className="ride-filter"
           role="dialog"
           aria-modal="true"
-          aria-label="Filters"
+          aria-label="Filtros"
         >
           <button
             type="button"
             className="ride-filter__backdrop"
-            aria-label="Close filters"
+            aria-label="Fechar filtros"
             onClick={() => setIsFilterOpen(false)}
           />
           <div className="ride-filter__panel">
             <div className="ride-filter__header">
-              <h2>Filters</h2>
+              <h2>Filtros</h2>
               <button
                 type="button"
                 className="ride-filter__close"
                 onClick={() => setIsFilterOpen(false)}
-                aria-label="Close"
+                aria-label="Fechar"
               >
                 <svg
                   viewBox="0 0 24 24"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="2"
+                  aria-hidden="true"
                 >
                   <path d="M18 6L6 18" />
                   <path d="M6 6l12 12" />
@@ -387,7 +408,7 @@ export default function Ride() {
                   checked={filters.wifi}
                   onChange={() => toggleFilter("wifi")}
                 />
-                Wi-Fi onboard
+                Wi-Fi a bordo
               </label>
               <label className="ride-filter__option">
                 <input
@@ -395,7 +416,7 @@ export default function Ride() {
                   checked={filters.luggage}
                   onChange={() => toggleFilter("luggage")}
                 />
-                Luggage allowed
+                Bagagem permitida
               </label>
               <label className="ride-filter__option">
                 <input
@@ -403,7 +424,7 @@ export default function Ride() {
                   checked={filters.electric}
                   onChange={() => toggleFilter("electric")}
                 />
-                Electric car
+                Carro elétrico
               </label>
             </div>
             <button
@@ -411,7 +432,7 @@ export default function Ride() {
               className="ride-filter__apply"
               onClick={() => setIsFilterOpen(false)}
             >
-              Apply filters
+              Aplicar filtros
             </button>
           </div>
         </div>
